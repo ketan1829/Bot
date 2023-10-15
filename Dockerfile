@@ -16,8 +16,8 @@ RUN apt-get update -qy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for running the app with a specific user ID (1000)
-RUN useradd -m -u 1000 nextjs
+# Create a non-root user for running the app with a specific user ID (e.g., 1001)
+RUN useradd -m -u 1001 nextjs
 
 # Set environment variables
 ENV NODE_ENV=production
