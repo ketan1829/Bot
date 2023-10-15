@@ -16,15 +16,17 @@ RUN apt-get update -qy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install pnpm globally
-RUN npm install -g pnpm
-
-# Create a non-root user for running the app for improved security
-RUN groupadd -r nextjs && useradd -r -g nextjs nextjs
-USER nextjs
+# Create a non-root user for running the app with a specific user ID (1000) and group ID (1000)
+RUN groupadd -g 1000 nextjs && useradd -m -u 1000 -g nextjs nextjs
 
 # Set environment variables
 ENV NODE_ENV=production
+
+# Change the ownership of the /app directory to the nextjs user
+RUN chown -R nextjs:nextjs /app
+
+# Switch to the nextjs user
+USER nextjs
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
