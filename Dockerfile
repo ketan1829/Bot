@@ -11,12 +11,16 @@ RUN apt-get -qy update \
 RUN npm --global install pnpm
 
 FROM base AS pruner
+ARG SCOPE
+ENV SCOPE=${SCOPE}
 RUN npm --global install turbo
 WORKDIR /app
 COPY . .
 RUN turbo prune --scope=${SCOPE} --docker
 
 FROM base AS builder
+ARG SCOPE
+ENV SCOPE=${SCOPE}
 RUN apt-get -qy update && apt-get -qy --no-install-recommends install openssl git
 WORKDIR /app
 COPY .gitignore .gitignore
@@ -31,6 +35,8 @@ RUN SKIP_ENV_CHECK=true pnpm turbo run build --filter=${SCOPE}...
 
 FROM base AS runner
 WORKDIR /app
+ARG SCOPE
+ENV SCOPE=${SCOPE}
 
 COPY --from=builder --chown=node:node /app/apps/${SCOPE}/.next/standalone ./
 COPY --from=builder --chown=node:node /app/apps/${SCOPE}/.next/static ./apps/${SCOPE}/.next/static
