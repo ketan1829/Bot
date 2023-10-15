@@ -7,8 +7,8 @@ WORKDIR /app
 # Install required system packages
 RUN apt-get update && apt-get install -y openssl
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Install npm globally
+RUN npm install -g npm
 
 # Copy your project files to the container
 COPY . .
@@ -22,11 +22,11 @@ RUN apt-get install -y git
 # Set the working directory
 WORKDIR /app
 
-# Install project dependencies using pnpm
-RUN pnpm install
+# Install project dependencies using npm
+RUN npm install
 
 # Build your project (replace with your build command)
-RUN pnpm run build
+RUN npm run build
 
 # Create a runner image
 FROM base AS runner
@@ -42,17 +42,17 @@ COPY --from=builder /app/apps/${SCOPE}/.next/static ./apps/${SCOPE}/.next/static
 COPY --from=builder /app/apps/${SCOPE}/public ./apps/${SCOPE}/public
 
 # Copy runtime environment dependencies
-COPY --from=builder /app/node_modules/.pnpm/chalk@4.1.2/node_modules/chalk ./node_modules/chalk
-COPY --from=builder /app/node_modules/.pnpm/chalk@4.1.2/node_modules/ansi-styles ./node_modules/ansi-styles
-COPY --from=builder /app/node_modules/.pnpm/chalk@4.1.2/node_modules/supports-color ./node_modules/supports-color
-COPY --from=builder /app/node_modules/.pnpm/has-flag@4.0.0/node_modules/has-flag ./node_modules/has-flag
-COPY --from=builder /app/node_modules/.pnpm/next-runtime-env@1.6.2/node_modules/next-runtime-env/build ./node_modules/next-runtime-env/build
+COPY --from=builder /app/node_modules/.npm/chalk@4.1.2/node_modules/chalk ./node_modules/chalk
+COPY --from=builder /app/node_modules/.npm/chalk@4.1.2/node_modules/ansi-styles ./node_modules/ansi-styles
+COPY --from=builder /app/node_modules/.npm/chalk@4.1.2/node_modules/supports-color ./node_modules/supports-color
+COPY --from=builder /app/node_modules/.npm/has-flag@4.0.0/node_modules/has-flag ./node_modules/has-flag
+COPY --from=builder /app/node_modules/.npm/next-runtime-env@1.6.2/node_modules/next-runtime-env/build ./node_modules/next-runtime-env/build
 
 # Copy Prisma and generate the schema
 COPY ./packages/prisma/postgresql ./packages/prisma/postgresql
-COPY --from=builder /app/node_modules/.pnpm/@prisma+client@5.0.0_prisma@5.0.0/node_modules/@prisma/client ./node_modules/@prisma/client
-COPY --from=builder /app/node_modules/.pnpm/@prisma+engines@5.0.0/node_modules/@prisma/engines ./node_modules/@prisma/engines
-COPY --from=builder /app/node_modules/.pnpm/prisma@5.0.0/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/.npm/@prisma+client@5.0.0_prisma@5.0.0/node_modules/@prisma/client ./node_modules/@prisma/client
+COPY --from=builder /app/node_modules/.npm/@prisma+engines@5.0.0/node_modules/@prisma/engines ./node_modules/@prisma/engines
+COPY --from=builder /app/node_modules/.npm/prisma@5.0.0/node_modules/prisma ./node_modules/prisma
 COPY --from=builder /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 
 # Copy your entrypoint script
