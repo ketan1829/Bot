@@ -4,6 +4,9 @@ FROM node:18-slim
 # Set the working directory to /app
 WORKDIR /app
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
 # Add ARG for the SCOPE, which can be passed during CapRover app creation
 ARG SCOPE
 ENV SCOPE=${SCOPE}
