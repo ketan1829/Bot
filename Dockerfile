@@ -4,9 +4,6 @@ FROM node:18-slim
 # Set the working directory to /app
 WORKDIR /app
 
-# Install pnpm globally
-RUN npm install -g pnpm
-
 # Add ARG for the SCOPE, which can be passed during CapRover app creation
 ARG SCOPE
 ENV SCOPE=${SCOPE}
@@ -35,7 +32,7 @@ USER nextjs
 COPY package*.json ./
 
 # Install dependencies using pnpm
-RUN pnpm install
+RUN npm install -g pnpm && pnpm install
 
 # Copy your application source code to the container
 COPY . .
