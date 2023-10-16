@@ -11,7 +11,7 @@ RUN apt-get -qy update \
 RUN npm -g install pnpm
 
 FROM base AS pruner
-RUN npm install turbo===1.1.0-canary.2 --global
+RUN npm install turbo@1.1.0-canary.2 --global
 # RUN pnpm run clean
 # RUN npm install -g turbo-cli
 
