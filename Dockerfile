@@ -8,10 +8,12 @@ RUN apt-get -qy update \
     && apt-get autoremove -yq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-RUN npm --global install pnpm
+RUN npm -g install pnpm
 
 FROM base AS pruner
-RUN npm --g install turbo
+RUN npm install -g turbo
+RUN npm install -g turbo-cli
+
 WORKDIR /app
 COPY . .
 RUN turbo prune --scope=${SCOPE} --docker
