@@ -11,7 +11,7 @@ RUN apt-get -qy update \
 RUN npm -g install pnpm
 
 FROM base AS pruner
-RUN npm install -g turbo
+RUN npm install turbo
 # RUN npm install -g turbo-cli
 
 WORKDIR /app
