@@ -17,10 +17,12 @@ RUN npm install turbo@1.2.3 --global
 
 WORKDIR /app
 COPY . .
+ARG SCOPE
+ENV SCOPE=${SCOPE}
 RUN turbo prune --scope=${SCOPE} --docker
 
 FROM base AS builder
-RUN sudo apt-get -qy update && apt-get -qy --no-install-recommends install openssl git
+RUN apt-get -qy update && apt-get -qy --no-install-recommends install openssl git
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY .npmrc .pnpmfile.cjs ./
