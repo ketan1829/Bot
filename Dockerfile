@@ -1,4 +1,4 @@
-FROM node:18 AS base
+FROM node:18-bullseye-slim AS base
 WORKDIR /app
 ARG SCOPE
 ENV SCOPE=${SCOPE}
@@ -11,7 +11,7 @@ RUN apt-get -qy update \
 RUN npm -g install pnpm
 
 FROM base AS pruner
-RUN npm install turbo
+RUN npm install turbo --global
 # RUN npm install -g turbo-cli
 
 WORKDIR /app
