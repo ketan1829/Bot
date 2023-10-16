@@ -1,7 +1,7 @@
 FROM node:18.18.1 AS base
 WORKDIR /app
 ARG SCOPE
-ENV SCOPE=${SCOPE}
+ENV SCOPE=builder
 RUN apt-get -qy update \
     && apt-get -qy --no-install-recommends install \
     openssl \
@@ -18,8 +18,8 @@ RUN npm install turbo@1.2.3 --global
 WORKDIR /app
 COPY . .
 ARG SCOPE
-ENV SCOPE=${SCOPE}
-RUN turbo prune --scope=${SCOPE} --docker
+ENV SCOPE=builder
+RUN turbo prune --scope=builder --docker
 
 FROM base AS builder
 RUN apt-get -qy update && apt-get -qy --no-install-recommends install openssl git
