@@ -12,6 +12,7 @@ RUN npm -g install pnpm
 
 FROM base AS pruner
 RUN npm install turbo --global
+RUN pnpm install
 # RUN npm install -g turbo-cli
 
 WORKDIR /app
