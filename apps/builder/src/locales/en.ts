@@ -71,7 +71,7 @@ export default {
   'analytics.startsLabel': 'Starts',
   'analytics.notAvailableLabel': 'Not available',
   'analytics.completionRateLabel': 'Completion rate',
-  'auth.signin.heading': 'Sign In',
+  'auth.signin.heading': 'Sign-In',
   'auth.signin.noAccountLabel.preLink': "Don't have an account?",
   'auth.signin.noAccountLabel.link': 'Sign up for free',
   'auth.register.heading': 'Create an account',
@@ -105,7 +105,7 @@ export default {
   'auth.socialLogin.customButton.label': 'Continue with {customProviderName}',
   'billing.billingPortalButton.label': 'Billing portal',
   'billing.contribution.preLink':
-    'Typebot is contributing 1% of your subscription to remove CO₂ from the atmosphere.',
+    'Choira is contributing 1% of your subscription to remove CO₂ from the atmosphere.',
   'billing.contribution.link': 'Learn more.',
   'billing.updateSuccessToast.description':
     'Workspace {plan} plan successfully updated 🎉',
@@ -235,7 +235,7 @@ export default {
   'editor.sidebarBlock.condition.label': 'Condition',
   'editor.sidebarBlock.redirect.label': 'Redirect',
   'editor.sidebarBlock.script.label': 'Script',
-  'editor.sidebarBlock.typebot.label': 'Typebot',
+  'editor.sidebarBlock.typebot.label': 'Choira',
   'editor.sidebarBlock.wait.label': 'Wait',
   'editor.sidebarBlock.jump.label': 'Jump',
   'editor.sidebarBlock.abTest.label': 'AB Test',
