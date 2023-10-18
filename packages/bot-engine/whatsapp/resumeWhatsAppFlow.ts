@@ -128,6 +128,9 @@ const getIncomingMessageContent = async ({
       return message.text.body
     case 'button':
       return message.button.text
+    case 'order': {
+      return message.order.product_items.product_retailer_id
+    }
     case 'interactive': {
       return message.interactive.button_reply.id
     }

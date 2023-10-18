@@ -1,18 +1,21 @@
-version: '3.9'
+version: '3.3'
+
+volumes:
+  db-data:
+
 services:
   typebot-db:
-    image: postgres:13
+    image: postgres:14-alpine
     restart: always
     volumes:
-      - ${PWD}/.typebot-build/database:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=typebot
       - POSTGRES_PASSWORD=typebot
+
   typebot-builder:
-    build:
-      context: .
-      args:
-        - SCOPE=builder
+    image: baptistearno/typebot-builder:latest
+    restart: always
     depends_on:
       - typebot-db
     ports:
@@ -20,11 +23,10 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     env_file: .env
+
   typebot-viewer:
-    build:
-      context: .
-      args:
-        - SCOPE=viewer
+    image: baptistearno/typebot-viewer:latest
+    restart: always
     ports:
       - '8081:3000'
     env_file: .env
