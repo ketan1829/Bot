@@ -93,10 +93,10 @@ export const incomingMessageSchema = z.discriminatedUnion('type', [
         quantity: z.string(),
         item_price: z.string(),
         currency: z.string(),
-      }),
-      timestamp: z.string(),  
+      }),  
     }),
     text: z.string(),
+    timestamp: z.string(),
   }),
 
   z.object({
