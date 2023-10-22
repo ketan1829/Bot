@@ -39,6 +39,7 @@ export const continueBotFlow = async (
   reply: string | undefined,
   { state, version }: Params
 ): Promise<ChatReply & { newSessionState: SessionState }> => {
+
   let firstBubbleWasStreamed = false
   let newSessionState = { ...state }
 
@@ -95,6 +96,8 @@ export const continueBotFlow = async (
   let formattedReply: string | undefined
 
   if (isInputBlock(block)) {
+    console.log("reply------", reply);
+    
     const parsedReplyResult = parseReply(newSessionState)(reply, block)
 
     if (parsedReplyResult.status === 'fail')
