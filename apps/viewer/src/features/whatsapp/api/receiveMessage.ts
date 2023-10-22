@@ -28,11 +28,36 @@ export const receiveMessage = publicProcedure
     if (isNotDefined(receivedMessage)) return { message: 'No message found' }
     const contactName =
       entry.at(0)?.changes.at(0)?.value?.contacts?.at(0)?.profile?.name ?? ''
+    // const orderDetail = entry.at(0)?.changes.at(0)?.value.messages?.order.product_items?.product_retailer_id
     const contactPhoneNumber =
       entry.at(0)?.changes.at(0)?.value?.messages?.at(0)?.from ?? ''
     const phoneNumberId = entry.at(0)?.changes.at(0)?.value
       .metadata.phone_number_id
     if (!phoneNumberId) return { message: 'No phone number id found' }
+
+    // Check the message type
+    const messageType = receivedMessage.type;
+    if (messageType === 'order') {
+      // Dynamically extract and format order details as text
+      const orderText = extractOrderDetails(receivedMessage);
+  
+      // Pass order details as text input to the chatbot flow
+      return resumeWhatsAppFlow({
+        receivedMessage: {
+          type: 'text',
+          text: {
+            body: orderText,
+          },
+        },
+        sessionId: `wa-${phoneNumberId}-${receivedMessage.from}`,
+        credentialsId,
+        workspaceId,
+        contact: {
+          name: contactName,
+          phoneNumber: contactPhoneNumber,
+        },
+      });
+    }
     return resumeWhatsAppFlow({
       receivedMessage,
       sessionId: `wa-${phoneNumberId}-${receivedMessage.from}`,
@@ -44,3 +69,16 @@ export const receiveMessage = publicProcedure
       },
     })
   })
+
+  function extractOrderDetails(orderMessage) {
+    // Determine the structure of the order message and extract details dynamically
+    let orderText = 'Order Details:\n';
+    for (const key in orderMessage.order) {
+      if (orderMessage.order.hasOwnProperty(key)) {
+        orderText += `${key}: ${orderMessage.order[key]}\n`;
+      }
+    }
+  
+    // Create a text message with the dynamic order details
+    return orderText;
+  }
