@@ -86,16 +86,16 @@ export const incomingMessageSchema = z.discriminatedUnion('type', [
   z.object({
     from: z.string(),
     type: z.literal('order'),
-    order: z.object({
+    text: z.object({
       catalog_id: z.string(),
-      product_items: z.object({
+      body: z.object({
         product_retailer_id: z.string(),
         quantity: z.string(),
         item_price: z.string(),
         currency: z.string(),
       }),  
     }),
-    text: z.string(),
+    // text: z.string(),
     timestamp: z.string(),
   }),
 
