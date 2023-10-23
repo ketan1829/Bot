@@ -36,11 +36,19 @@ export const receiveMessage = publicProcedure
     if (!phoneNumberId) return { message: 'No phone number id found' }
 
     // Check the message type
-    const messageType = receivedMessage.type;
+    const messageType = receivedMessage.type
+    console.log(
+      'messageType-----',
+      messageType,
+      '\n',
+      entry.at(0)?.changes.at(0)?.value.messages
+    )
     if (messageType === 'order') {
       // Dynamically extract and format order details as text
       const orderText = receivedMessage.order // extractOrderDetails(receivedMessage);
-  
+
+      console.log('orderText', orderText)
+
       // Pass order details as text input to the chatbot flow
       return resumeWhatsAppFlow({
         receivedMessage: {
@@ -58,7 +66,7 @@ export const receiveMessage = publicProcedure
           name: contactName,
           phoneNumber: contactPhoneNumber,
         },
-      });
+      })
     }
     return resumeWhatsAppFlow({
       receivedMessage,
@@ -80,9 +88,7 @@ export const receiveMessage = publicProcedure
 //             orderText += `${key}: ${orderMessage[key]}\n`;
 //         }
 //     }
-  
+
 //     // Create a text message with the dynamic order details
 //     return orderText;
 // }
-
-  

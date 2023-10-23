@@ -52,6 +52,22 @@ const interactiveSchema = z.object({
 // https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#message-object
 const sendingMessageSchema = z.discriminatedUnion('type', [
   z.object({
+    from: z.string(),
+    type: z.literal('order'),
+    order: z.object({
+      catalog_id: z.string(),
+      product_items: z.object({
+        product_retailer_id: z.string(),
+        quantity: z.string(),
+        item_price: z.string(),
+        currency: z.string(),
+      }),
+    }),
+    // text: z.string(),
+    timestamp: z.string(),
+  }),
+
+  z.object({
     type: z.literal('text'),
     text: z.object({
       body: z.string(),
@@ -82,20 +98,21 @@ const sendingMessageSchema = z.discriminatedUnion('type', [
 ])
 
 export const incomingMessageSchema = z.discriminatedUnion('type', [
-
   z.object({
     from: z.string(),
     type: z.literal('order'),
     order: z.object({
       catalog_id: z.string(),
-      product_items: z.object({
-        product_retailer_id: z.string(),
-        quantity: z.string(),
-        item_price: z.string(),
-        currency: z.string(),
-      }),  
+      product_items: z.array(
+        z.object({
+          product_retailer_id: z.string().optional(),
+          // quantity: z.string().optional(),
+          // item_price: z.string().optional(),
+          currency: z.string().optional(),
+        })
+      ),
+      text: z.string(),
     }),
-    text: z.string(),
     timestamp: z.string(),
   }),
 
