@@ -39,15 +39,17 @@ export const receiveMessage = publicProcedure
     const messageType = receivedMessage.type;
     if (messageType === 'order') {
       // Dynamically extract and format order details as text
-      const orderText = extractOrderDetails(receivedMessage);
+      const orderText = receivedMessage.order // extractOrderDetails(receivedMessage);
   
       // Pass order details as text input to the chatbot flow
       return resumeWhatsAppFlow({
         receivedMessage: {
+          from: receivedMessage.from,
           type: 'text',
           text: {
-            body: orderText,
+            body: JSON.stringify(orderText),
           },
+          timestamp: receivedMessage.timestamp,
         },
         sessionId: `wa-${phoneNumberId}-${receivedMessage.from}`,
         credentialsId,
@@ -70,15 +72,17 @@ export const receiveMessage = publicProcedure
     })
   })
 
-  function extractOrderDetails(orderMessage) {
-    // Determine the structure of the order message and extract details dynamically
-    let orderText = 'Order Details:\n';
-    for (const key in orderMessage.order) {
-      if (orderMessage.order.hasOwnProperty(key)) {
-        orderText += `${key}: ${orderMessage.order[key]}\n`;
-      }
-    }
+//   function extractOrderDetails(orderMessage: Record<string, unknown>) {
+//     // Determine the structure of the order message and extract details dynamically
+//     let orderText = 'Order Details:\n';
+//     for (const key in orderMessage) {
+//         if (Object.prototype.hasOwnProperty.call(orderMessage, key)) {
+//             orderText += `${key}: ${orderMessage[key]}\n`;
+//         }
+//     }
   
-    // Create a text message with the dynamic order details
-    return orderText;
-  }
+//     // Create a text message with the dynamic order details
+//     return orderText;
+// }
+
+  
