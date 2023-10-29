@@ -19,11 +19,11 @@ import { updateInvitationQuery } from '../queries/updateInvitationQuery'
 import { updateMemberQuery } from '../queries/updateMemberQuery'
 import { Member } from '../types'
 import { useWorkspace } from '../WorkspaceProvider'
-import { useScopedI18n } from '@/locales'
 import { getSeatsLimit } from '@typebot.io/lib/billing/getSeatsLimit'
+import { useTranslate } from '@tolgee/react'
 
 export const MembersList = () => {
-  const scopedT = useScopedI18n('workspace.membersList')
+  const { t } = useTranslate()
   const { user } = useUser()
   const { workspace, currentRole } = useWorkspace()
   const { members, invitations, isLoading, mutate } = useMembers({
@@ -92,20 +92,23 @@ export const MembersList = () => {
 
   const seatsLimit = workspace ? getSeatsLimit(workspace) : undefined
 
-  const canInviteNewMember = workspace
-    ? currentMembersCount < (seatsLimit as number)
-    : false
+  const canInviteNewMember =
+    seatsLimit === 'inf'
+      ? true
+      : seatsLimit
+      ? currentMembersCount < seatsLimit
+      : false
 
   return (
     <Stack w="full" spacing={3}>
       {!canInviteNewMember && (
         <UnlockPlanAlertInfo>
-          {scopedT('unlockBanner.label')}
+          {t('workspace.membersList.unlockBanner.label')}
         </UnlockPlanAlertInfo>
       )}
       {isDefined(seatsLimit) && (
         <Heading fontSize="2xl">
-          {scopedT('title')}{' '}
+          {t('workspace.membersList.title')}{' '}
           {seatsLimit === -1 ? '' : `(${currentMembersCount}/${seatsLimit})`}
         </Heading>
       )}
