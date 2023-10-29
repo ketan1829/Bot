@@ -1,13 +1,13 @@
 version: '3.9'
 services:
-  typebot-db:
-    image: postgres:13
-    restart: always
-    volumes:
-      - ${PWD}/.typebot-build/database:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=typebot
-      - POSTGRES_PASSWORD=typebot
+  # typebot-db:
+  #   image: postgres:13
+  #   restart: always
+  #   volumes:
+  #     - ${PWD}/.typebot-build/database:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=typebot
+  #     - POSTGRES_PASSWORD=typebot
   typebot-builder:
     build:
       context: .
