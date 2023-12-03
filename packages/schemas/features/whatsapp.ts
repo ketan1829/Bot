@@ -133,6 +133,7 @@ export const incomingMessageSchema = z.discriminatedUnion('type', [
     }),
     timestamp: z.string(),
   }),
+
   z.object({
     from: z.string(),
     type: z.literal('interactive'),
@@ -141,9 +142,43 @@ export const incomingMessageSchema = z.discriminatedUnion('type', [
         id: z.string(),
         title: z.string(),
       }),
+      list_reply: z
+        .object({
+          id: z.string(),
+          title: z.string(),
+          description: z.string().optional(), // Add description field if needed
+        })
+        .optional(),
+      type: z.literal('list_reply').optional(),
     }),
     timestamp: z.string(),
   }),
+
+  // z.object({
+  //   from: z.string(),
+  //   type: z.literal('interactive'),
+  //   interactive: z.object({
+  //     button_reply: z.object({
+  //       id: z.string(),
+  //       title: z.string(),
+  //     }),
+  //   }),
+  //   timestamp: z.string(),
+  // }),
+  // z.object({
+  //   from: z.string(),
+  //   type: z.literal('interactive'),
+  //   interactive: z.object({
+  //     list_reply: z.object({
+  //       id: z.string(),
+  //       title: z.string(),
+  //       description: z.string(), // Add description field if needed
+  //     }),
+  //     type: z.literal('list_reply'),
+  //   }),
+  //   timestamp: z.string(),
+  // }),
+
   z.object({
     from: z.string(),
     type: z.literal('image'),

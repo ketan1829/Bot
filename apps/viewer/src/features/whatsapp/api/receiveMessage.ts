@@ -40,7 +40,7 @@ export const receiveMessage = publicProcedure
     console.log(
       'messageType-----',
       messageType,
-      '\n',
+      '\n\nData:',
       entry.at(0)?.changes.at(0)?.value.messages
     )
     if (messageType === 'order') {
@@ -79,16 +79,3 @@ export const receiveMessage = publicProcedure
       },
     })
   })
-
-//   function extractOrderDetails(orderMessage: Record<string, unknown>) {
-//     // Determine the structure of the order message and extract details dynamically
-//     let orderText = 'Order Details:\n';
-//     for (const key in orderMessage) {
-//         if (Object.prototype.hasOwnProperty.call(orderMessage, key)) {
-//             orderText += `${key}: ${orderMessage[key]}\n`;
-//         }
-//     }
-
-//     // Create a text message with the dynamic order details
-//     return orderText;
-// }
