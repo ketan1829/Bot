@@ -132,10 +132,10 @@ const getIncomingMessageContent = async ({
       // Ensure that product_items is an array
       const orderItems = Array.isArray(message.order.product_items)
         ? message.order.product_items.map(item => {
-            return `${item.product_retailer_id} - Quantity: ${item.quantity}, Price: ${item.item_price} ${item.currency}`;
+            return `${item.product_retailer_id}`;
           })
         : [];
-      return `Order:\n${orderItems.join('\n')}\n\nMessage: ${message.text}`;
+      return `Order:\n${orderItems.join('\n')}`;
     }
     case 'interactive': {
       return message.interactive.button_reply.id
